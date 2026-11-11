@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=1">
+<link rel="stylesheet" href="assets/site.css?v=2">
 <meta name="robots" content="noindex">
 <meta property="og:title" content="Consórcio Embracon com a MXM Consórcios | Imóvel, carro, moto e mais">
 <meta property="og:description" content="Consórcio de imóvel, carro, moto, pesados e serviços, sem juros. A MXM Consórcios é parceira autorizada Embracon. Responda algumas perguntas e receba sua simulação pelo WhatsApp.">
@@ -19,6 +19,7 @@
 <header class="top"><div class="wrap">
   <div class="mxm">MXM Consórcios</div>
   <div class="parc"><span>Parceira<br>autorizada</span><img src="assets/embracon-branco.svg" alt="Consórcio Embracon" width="64" height="34"></div>
+  <button class="pill" type="button" data-quiz>Simular agora</button>
 </div></header>
 
 <main>
@@ -40,11 +41,16 @@
       <button class="tipo" type="button" data-tipo="Serviços"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16v12H4z"/><path d="M9 8V5h6v3"/><path d="M4 13h16"/></svg></span><span>Serviços<small>Reforma, festa, viagem ou estudo</small></span></button>
       </div>
     </div>
-    <ul class="selos">
-      <li>Simulação gratuita e sem compromisso</li>
-      <li>Administradora autorizada pelo Banco Central</li>
-      <li>Atendimento humano pelo WhatsApp</li>
-    </ul>
+    <p class="selo1">Simulação gratuita e sem compromisso</p>
+  </div>
+</div></section>
+
+<section class="benef"><div class="wrap">
+  <div class="bens">
+    <div class="ben"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 16l8-8"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg></span><div><h3>Sem juros</h3><p>Você paga a taxa de administração, diluída nas parcelas.</p></div></div>
+    <div class="ben"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v11H4z"/><path d="M4 11h16"/><path d="M8 15h3"/></svg></span><div><h3>Sem entrada obrigatória</h3><p>Pra entrar no grupo não é exigida entrada.</p></div></div>
+    <div class="ben"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div><h3>Autorizada pelo Banco Central</h3><p>A Embracon administra consórcios desde 1988.</p></div></div>
+    <div class="ben"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span><div><h3>Especialista do começo ao fim</h3><p>Atendimento humano pelo WhatsApp.</p></div></div>
   </div>
 </div></section>
 
@@ -62,7 +68,7 @@
 <section class="sec cinza"><div class="wrap">
   <h2>Por que o consórcio não cobra juros?</h2>
   <p class="lead">No financiamento, o banco empresta o dinheiro dele e cobra juros. No consórcio, o dinheiro é do próprio grupo. Por isso não tem juros nem entrada obrigatória.</p>
-  <div class="comp">
+  <div class="comp vs">
     <div><span>Consórcio Embracon</span><span>Financiamento</span></div>
     <div><span><b>Juros</b>Não tem</span><span><b>Juros</b>Cobrados sobre o valor financiado</span></div>
     <div><span><b>Entrada</b>Não é exigida pra entrar no grupo</span><span><b>Entrada</b>Costuma ser exigida</span></div>
@@ -130,6 +136,7 @@
   <p><a href="privacidade.html">Política de Privacidade</a></p>
   <p>© 2026 MXM Consórcios</p>
 </div></footer>
+<div class="fixa" id="fixa"><button class="btn" type="button" data-quiz>Fazer minha simulação gratuita</button></div>
 </div>
 
 <div class="quiz" id="quiz" aria-live="polite">
@@ -144,6 +151,7 @@
   <div class="qbody" id="qbody"></div>
 </div>
 
+<script>(function(){var f=document.getElementById('fixa'),e=document.querySelector('.escolha'),z=document.querySelector('.final');if(!f||!e||!('IntersectionObserver' in window))return;var a=1,b=0;function u(){f.classList.toggle('on',!a&&!b)}new IntersectionObserver(function(x){a=x[0].isIntersecting;u()}).observe(e);new IntersectionObserver(function(x){b=x[0].isIntersecting;u()}).observe(z)})();</script>
 <script src="assets/config.js?v=1"></script>
 <script src="assets/rt.js?v=1"></script>
 <script src="assets/quiz.js?v=1"></script>
