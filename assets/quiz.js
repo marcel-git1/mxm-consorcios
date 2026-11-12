@@ -14,13 +14,14 @@ var FX={
 };
 function fxTxt(f){return !f[1]?'Acima de '+num(f[0]):'De '+num(f[0])+' a '+num(f[1])}
 function fxNum(f){return (!f[1]?f[0]:(f[0]+f[1])/2)*1000}
-// Parcela por categoria. A referência de R$ 916 é de imóvel e a de R$ 635 é de carro (página inicial da Embracon),
+// Parcela por categoria. A referência de R$ 916 é de imóvel, a de R$ 635 é de carro e a de R$ 1.690 é de pesados,
 // por isso cada uma só aparece na sua categoria.
 var PA=['Até R$ 1.000 por mês','De R$ 1.000 a R$ 1.800 por mês','De R$ 1.800 a R$ 2.800 por mês','De R$ 2.800 a R$ 4.000 por mês','Acima de R$ 4.000 por mês'];
 var PB=['Até R$ 650 por mês','De R$ 650 a R$ 1.000 por mês','De R$ 1.000 a R$ 1.500 por mês','De R$ 1.500 a R$ 2.200 por mês','Acima de R$ 2.200 por mês'];
 var PC=['Até R$ 350 por mês','De R$ 350 a R$ 550 por mês','De R$ 550 a R$ 850 por mês','Acima de R$ 850 por mês'];
-var PAR={'Imóvel':PA,'Pesados':PA,'Carro':PB,'Moto':PC,'Serviços':PC};
-var REF={'Imóvel':'Referência Embracon: R$ 250 mil com parcelas a partir de R$ 916/mês','Carro':'Referência Embracon: R$ 80 mil com parcelas a partir de R$ 635/mês'};
+var PD=['Até R$ 1.800 por mês','De R$ 1.800 a R$ 2.800 por mês','De R$ 2.800 a R$ 4.000 por mês','De R$ 4.000 a R$ 6.000 por mês','Acima de R$ 6.000 por mês'];
+var PAR={'Imóvel':PA,'Pesados':PD,'Carro':PB,'Moto':PC,'Serviços':PC};
+var REF={'Imóvel':'Referência Embracon: R$ 250 mil com parcelas a partir de R$ 916/mês','Carro':'Referência Embracon: R$ 80 mil com parcelas a partir de R$ 635/mês','Pesados':'Referência Embracon: Pesados de R$ 150 mil com parcelas a partir de R$ 1.690/mês'};
 // Botões da página inicial que caem na mesma categoria do quiz. O nome clicado segue pra planilha (coluna tipo).
 var DA_LP={'Caminhão':'Pesados','Trator ou máquina':'Pesados'};
 var NOME_CAT={'Pesados':'Caminhão, trator ou máquina pesada'};
@@ -221,10 +222,10 @@ function pronto(){
   var a=el('a','btnzap');a.href=link;a.target='_blank';a.rel='noopener';a.innerHTML=ZAP;a.appendChild(el('span','','Iniciar Conversa no WhatsApp Agora'));
   a.addEventListener('click',function(){fb('trackCustom','CliqueWhatsApp')});
   cx.appendChild(a);f.appendChild(cx);
-  f.appendChild(el('p','calma','Se preferir não chamar agora, fique tranquilo: nosso consultor credenciado entrará em contato com você pelo WhatsApp no número informado em até 30 minutos em horário comercial.'));
+  f.appendChild(el('p','calma','Se preferir não chamar agora, fique tranquilo: nosso consultor credenciado analisará seus dados e entrará em contato com você pelo WhatsApp com a simulação detalhada para o seu perfil.'));
  }else{
   // Sem número em config.js (MX.whatsapp) a caixa do botão verde não aparece.
-  f.appendChild(el('p','calma','Nosso consultor credenciado entrará em contato com você pelo WhatsApp no número informado em até 30 minutos em horário comercial.'));
+  f.appendChild(el('p','calma','Nosso consultor credenciado analisará seus dados e entrará em contato com você pelo WhatsApp com a simulação detalhada para o seu perfil.'));
  }
  var s=el('div','selo2');
  s.appendChild(el('strong','','MXM Consórcios | Parceira Autorizada Embracon'));
