@@ -1,13 +1,14 @@
 (function(){
 'use strict';
-// Quiz v2 (12/11/26): 6 telas, texto do Stefan Brain em copy/02-quiz-v2-sb.md. Não mexer no texto sem ele.
+// Quiz v2 (12/11/26): 6 telas, texto do Stefan Brain em copy/02-quiz-v2-sb.md.
+// 14/11/26: sem administradora fixa. A MXM é corretora e atua com administradoras autorizadas pelo Banco Central. Saíram as referências de preço da Embracon.
 var MX=window.MX||{};
 var num=function(n){return 'R$ '+(n*1000).toLocaleString('pt-BR')};
 // Faixas de carta por categoria, em milhares de reais: [mínimo, máximo, destaque]. O valor somado na planilha (carta_valor)
 // é o meio da faixa; na faixa aberta ("Acima de") é o próprio piso.
 var FX={
- 'Imóvel':[[120,200],[200,350,'Inclui planos de R$ 250 mil'],[350,500],[500,800],[800,0]],
- 'Carro':[[40,70],[70,100,'Inclui planos de R$ 80 mil'],[100,150],[150,220],[220,0]],
+ 'Imóvel':[[120,200],[200,350],[350,500],[500,800],[800,0]],
+ 'Carro':[[40,70],[70,100],[100,150],[150,220],[220,0]],
  'Moto':[[15,25],[25,35],[35,50],[50,0]],
  'Pesados':[[150,250],[250,400],[400,600],[600,0]],
  'Serviços':[[20,30],[30,45],[45,60],[60,0]]
@@ -21,27 +22,27 @@ var PB=['Até R$ 650 por mês','De R$ 650 a R$ 1.000 por mês','De R$ 1.000 a R$
 var PC=['Até R$ 350 por mês','De R$ 350 a R$ 550 por mês','De R$ 550 a R$ 850 por mês','Acima de R$ 850 por mês'];
 var PD=['Até R$ 1.800 por mês','De R$ 1.800 a R$ 2.800 por mês','De R$ 2.800 a R$ 4.000 por mês','De R$ 4.000 a R$ 6.000 por mês','Acima de R$ 6.000 por mês'];
 var PAR={'Imóvel':PA,'Pesados':PD,'Carro':PB,'Moto':PC,'Serviços':PC};
-var REF={'Imóvel':'Referência Embracon: R$ 250 mil com parcelas a partir de R$ 916/mês','Carro':'Referência Embracon: R$ 80 mil com parcelas a partir de R$ 635/mês','Pesados':'Referência Embracon: Pesados de R$ 150 mil com parcelas a partir de R$ 1.690/mês'};
+var REF={};
 // Botões da página inicial que caem na mesma categoria do quiz. O nome clicado segue pra planilha (coluna tipo).
-var DA_LP={'Caminhão':'Pesados','Trator ou máquina':'Pesados'};
-var NOME_CAT={'Pesados':'Caminhão, trator ou máquina pesada'};
+var DA_LP={'Caminhão':'Pesados','Trator ou máquina':'Pesados','Ônibus':'Pesados'};
+var NOME_CAT={'Pesados':'Pesados (caminhão, ônibus ou trator)'};
 
 var P=[
- {k:'tipo',t:'Qual conquista você quer planejar?',d:'Selecione a categoria para carregar as tabelas oficiais da Embracon sem juros de banco:',o:function(){return [
-  {v:'Imóvel',t:'Imóvel',s:'Comprar casa, apartamento, terreno, construir ou reformar'},
-  {v:'Carro',t:'Carro',s:'Comprar carro novo, seminovo ou trocar usando seu usado'},
-  {v:'Moto',t:'Moto',s:'Comprar sua primeira moto ou modelo para trabalho/viagem'},
-  {v:'Pesados',t:'Caminhão, trator ou máquina pesada',s:'Renovação de frota ou agronegócio'},
-  {v:'Serviços',t:'Serviços',s:'Reformas, viagens, casamentos ou cursos e estudos'}]}},
+ {k:'tipo',t:'Qual conquista você quer planejar?',d:'Escolha a categoria pra ver os planos, sem juros de banco:',o:function(){return [
+  {v:'Imóvel',t:'Imóvel',s:'Casa, apartamento, terreno, reforma ou quitar um financiamento'},
+  {v:'Carro',t:'Carro',s:'Carro novo ou seminovo, e também vans'},
+  {v:'Moto',t:'Moto',s:'A primeira moto ou um modelo pra trabalho e viagem'},
+  {v:'Pesados',t:'Caminhão, ônibus ou trator',s:'Pesados e implementos agrícolas e rodoviários'},
+  {v:'Serviços',t:'Serviços',s:'Reforma, viagem, casamento, cursos e estudos'}]}},
  {k:'carta',t:'De quanto crédito você precisa para o seu plano?',d:'Escolha a estimativa de valor da sua carta para calcularmos as menores parcelas:',o:function(){return FX[R.tipo].map(function(f){return {v:fxTxt(f),t:fxTxt(f),dq:f[2],n:fxNum(f)}})}},
  {k:'parcela',t:'Quanto fica confortável investir por mês?',d:'Os planos são desenhados para caber no seu orçamento sem comprometer sua renda:',o:function(){return PAR[R.tipo].map(function(x,n){return {v:x,t:x,dq:n===0?REF[R.tipo]:''}})}},
- {k:'contemplacao',t:'Como você prefere receber a sua carta de crédito?',d:'Na Embracon você tem diferentes formas de contemplação nas assembleias mensais. Escolha sua preferência:',o:function(){return [
+ {k:'contemplacao',t:'Como você prefere receber a sua carta de crédito?',d:'No consórcio você concorre todo mês nas assembleias, por sorteio ou por lance. Escolha sua preferência:',o:function(){return [
   {v:'Sorteios mensais',t:'Quero contar com os sorteios mensais',s:'Sem precisar desembolsar nada de lance à vista'},
-  {v:'Lance embutido',t:'Quero antecipar com o Lance Embutido da Embracon',s:'Você usa até 25% do próprio crédito contratado para dar lance, sem tirar dinheiro do bolso'},
-  {v:'Reserva ou veículo usado',t:'Tenho reserva financeira ou veículo usado para lance',s:'Lance livre com recursos próprios ou programa Troca de Chaves para veículos'},
+  {v:'Lance embutido',t:'Quero antecipar com o lance embutido',s:'Você usa parte da própria carta como lance, sem tirar dinheiro do bolso, quando o grupo permite'},
+  {v:'Reserva ou FGTS',t:'Tenho reserva ou FGTS pra dar lance',s:'Lance livre ou fixo com recursos próprios. No imóvel dá pra usar o FGTS, dentro das regras'},
   {v:'Consultor indica',t:'Quero que o consultor me mostre a opção mais rápida para o meu bolso',s:'Análise comparativa dos grupos abertos com menor concorrência'}]}},
- {k:'cidade',t:'Em qual cidade você mora?',d:'Identificamos os grupos e tabelas disponíveis com atendimento regional da Embracon para você:',form:telaCidade},
- {k:'contato',t:'Onde devemos enviar sua simulação detalhada?',d:'Um consultor credenciado da equipe MXM / Embracon vai preparar a relação de grupos, prazos e parcelas para o seu perfil e enviar no seu WhatsApp:',form:telaContato}
+ {k:'cidade',t:'Em qual cidade você mora?',d:'Assim o consultor já separa os grupos com atendimento na sua região:',form:telaCidade},
+ {k:'contato',t:'Onde devemos enviar sua simulação detalhada?',d:'Um consultor da MXM vai comparar grupos, prazos e parcelas pro seu perfil e enviar no seu WhatsApp:',form:telaContato}
 ];
 var PCT=[15,35,55,75,90,100];
 var R={},i=0,enviando=false,iniciou=false,trava=false,tras=false;
@@ -75,6 +76,8 @@ function abrir(tipo){
  if(!iniciou){iniciou=true;fb('track','InitiateCheckout');window.rtConv&&rtConv('QuizStarted');history.pushState({q:1},'')}
  tras=false;tela();
 }
+// Simulador da página: abre o quiz já com categoria e faixa de carta escolhidas (pula pra etapa da parcela).
+window.MXQ={faixas:function(t){return (FX[t]||[]).map(fxTxt)},abrir:function(t,k){var f=(FX[t]||[])[k];if(!f)return abrir(t);if(i>=P.length){i=0;R={}}if(R.tipo!==t)limpaTipo();delete R.tipo_det;R.tipo=t;R.carta=fxTxt(f);R.carta_valor=fxNum(f);abrir();i=2;tela()}};
 document.querySelectorAll('[data-quiz]').forEach(function(b){b.addEventListener('click',function(){abrir()})});
 document.querySelectorAll('[data-tipo]').forEach(function(b){b.addEventListener('click',function(){abrir(b.getAttribute('data-tipo'))})});
 window.addEventListener('popstate',function(){if(document.body.classList.contains('q')&&!enviando){if(i>0&&i<P.length){i--;history.pushState({q:1},'');tras=true;tela()}else{document.body.classList.remove('q');iniciou=false}}});
@@ -190,7 +193,7 @@ function enviar(hp,b,er){
  d.whatsapp='55'+R.whatsapp;d.uf=ufDoDDD(R.whatsapp.slice(0,2));
  for(var o in ORIG)d[o]=ORIG[o];
  try{d.rt_clique=window.rtClique?window.rtClique():''}catch(e){}
- var fim=function(){fb('track','Lead',{content_name:'Simulacao Consorcio Embracon',content_category:d.tipo,value:0,currency:'BRL'},{eventID:id});window.rtConv&&rtConv('Lead');pronto()};
+ var fim=function(){fb('track','Lead',{content_name:'Simulacao Consorcio MXM',content_category:d.tipo,value:0,currency:'BRL'},{eventID:id});window.rtConv&&rtConv('Lead');pronto()};
  var falha=function(){enviando=false;b.disabled=false;rotulo(b,CTA,true);er.textContent='Não deu pra enviar. Confira sua internet e toque no botão de novo.';er.hidden=false};
  if(hp)return pronto(); // campo-isca preenchido: robô. Finge sucesso, não envia e não dispara Lead.
  if(!MX.endpoint||!MX.campo){console.warn('MXM: endpoint vazio, lead não enviado');return fim()}
@@ -213,12 +216,12 @@ function pronto(){
  var ok=el('div','ok');ok.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>';
  f.appendChild(ok);
  f.appendChild(el('h1','','Simulação recebida com sucesso!'));
- f.appendChild(el('p','','Nossa equipe credenciada já está selecionando os melhores grupos e menores parcelas da Embracon para o seu perfil.'));
+ f.appendChild(el('p','','Nossa equipe já está separando os grupos e as parcelas pro seu perfil.'));
  var link=linkZap();
  if(link){
   var cx=el('div','zapbox');
   cx.appendChild(el('b','','Quer ver os números agora mesmo sem esperar na fila?'));
-  cx.appendChild(el('p','','Toque no botão abaixo para abrir a conversa direta com o nosso consultor credenciado da Embracon no WhatsApp:'));
+  cx.appendChild(el('p','','Toque no botão abaixo pra abrir a conversa direta com o nosso consultor no WhatsApp:'));
   var a=el('a','btnzap');a.href=link;a.target='_blank';a.rel='noopener';a.innerHTML=ZAP;a.appendChild(el('span','','Iniciar Conversa no WhatsApp Agora'));
   a.addEventListener('click',function(){fb('trackCustom','CliqueWhatsApp')});
   cx.appendChild(a);f.appendChild(cx);
@@ -228,9 +231,9 @@ function pronto(){
   f.appendChild(el('p','calma','Nosso consultor credenciado analisará seus dados e entrará em contato com você pelo WhatsApp com a simulação detalhada para o seu perfil.'));
  }
  var s=el('div','selo2');
- s.appendChild(el('strong','','MXM Consórcios | Parceira Autorizada Embracon'));
- s.appendChild(el('p','','Embracon Administradora de Consórcio Ltda. Autorizada e fiscalizada pelo Banco Central do Brasil (Bacen).'));
- s.appendChild(el('p','','Nossos consultores nunca solicitam depósito prévio, taxa de adesão antecipada ou pagamento de valores fora dos canais bancários oficiais da Embracon.'));
+ s.appendChild(el('strong','','MXM Consórcios | Corretora de consórcio'));
+ s.appendChild(el('p','','Atuamos com administradoras autorizadas pelo Banco Central do Brasil.'));
+ s.appendChild(el('p','','Nossos consultores nunca pedem depósito prévio, taxa de adesão antecipada ou pagamento fora dos canais oficiais da administradora.'));
  f.appendChild(s);
  body.appendChild(f);window.scrollTo(0,0);
 }
